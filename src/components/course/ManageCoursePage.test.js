@@ -8,7 +8,9 @@ describe('Manage Course Page', () => {
     const props = {
       authors: [],
       actions: {saveCourse: ()=> {return Promise.resolve();}},
-      course: { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' }
+      course: { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' },
+      router: {setRouteLeaveHook: () => {}},
+      route: {}
     };
     const wrapper = mount(<ManageCoursePage {...props}/>);
     const saveButton = wrapper.find('input').last();

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { bindActionCreators } from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import CourseForm from './CourseForm';
@@ -13,11 +14,19 @@ export class ManageCoursePage extends React.Component {
     this.state = {
       course: Object.assign({}, props.course),
       errors: {},
-      saving: false
+      saving: false,
+      dirty: false
     };
 
     this.updateCourseState = this.updateCourseState.bind(this);
     this.saveCourse = this.saveCourse.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.router.setRouteLeaveHook(this.props.route, () => {
+      if (this.state.dirty)
+        return 'Are you sure you want to leave without saving?';
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -28,6 +37,7 @@ export class ManageCoursePage extends React.Component {
   }
 
   updateCourseState(event) {
+    this.setState({ dirty: true });
     const field = event.target.name;
     let course = Object.assign({}, this.state.course);
     course[field] = event.target.value;
@@ -40,6 +50,21 @@ export class ManageCoursePage extends React.Component {
 
     if (this.state.course.title.length < 5) {
       errors.title = 'Title must be at least 5 characters.';
+      formIsValid = false;
+    }
+
+    if (this.state.course.authorId.length === 0) {
+      errors.authorId = 'Must select an author.';
+      formIsValid = false;
+    }
+
+    if (this.state.course.category.length === 0) {
+      errors.category = 'Category must not be empty.';
+      formIsValid = false;
+    }
+
+    if (this.state.course.length.length === 0) {
+      errors.length = 'Length must not be empty.';
       formIsValid = false;
     }
 
@@ -64,9 +89,9 @@ export class ManageCoursePage extends React.Component {
   }
 
   redirect() {
-    this.setState({ saving: false });
+    this.setState({ saving: false, dirty: false });
     toastr.success('Course saved');
-    this.context.router.push('/courses');
+    this.props.router.push('/courses');
   }
 
   render() {
@@ -88,12 +113,9 @@ export class ManageCoursePage extends React.Component {
 ManageCoursePage.propTypes = {
   course: PropTypes.object.isRequired,
   authors: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
-};
-
-//Pull in the React Router context so router is available on this.context.router.
-ManageCoursePage.contextTypes = {
-  router: PropTypes.object
+  actions: PropTypes.object.isRequired,
+  router: PropTypes.object,
+  route: PropTypes.object
 };
 
 function getCourseById(courses, id) {
@@ -123,4 +145,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage));
