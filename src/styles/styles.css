@@ -13,3 +13,13 @@ a.active {
 nav {
   padding-top: 20px;
 }
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+#infiniteTable {
+  height: 150px;
+  overflow: auto;
+}

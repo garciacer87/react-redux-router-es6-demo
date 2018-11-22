@@ -63,12 +63,12 @@ CoursesPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  let sortedCourses = state.courses.sort((courseA, courseB) => {
+  let sortedCourses = [...state.courses].sort((courseA, courseB) => {
     return courseA.title < courseB.title ? -1 : 0;
   });
 
   return {
-    courses: [...sortedCourses],
+    courses: sortedCourses,
     loading: state.ajaxCallsInProgress > 0
   };
 }

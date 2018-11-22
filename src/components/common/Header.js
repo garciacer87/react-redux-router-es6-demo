@@ -3,10 +3,12 @@ import { Link, IndexLink } from 'react-router';
 import LoadingDots from './LoadingDots';
 
 
-const Header = ({ loading, numberOfCourses }) => {
+const Header = ({ loading, numberOfCourses, numberOfAuthors }) => {
   return (
     <nav>
       <IndexLink to="/" activeClassName="active">Home</IndexLink>
+      {" | "}
+      <IndexLink to="/authors" activeClassName="active">{`Authors (${numberOfAuthors})`}</IndexLink>
       {" | "}
       <Link to="/courses" activeClassName="active">{`Courses (${numberOfCourses})`}</Link>
       {" | "}
@@ -18,7 +20,8 @@ const Header = ({ loading, numberOfCourses }) => {
 
 Header.propTypes = {
   loading: PropTypes.bool.isRequired,
-  numberOfCourses: PropTypes.number
+  numberOfCourses: PropTypes.number,
+  numberOfAuthors: PropTypes.number
 };
 
 export default Header;
