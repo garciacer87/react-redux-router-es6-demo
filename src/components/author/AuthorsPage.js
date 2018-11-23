@@ -45,6 +45,8 @@ class AuthorsPage extends React.Component {
                value="Add Author"
                className="btn btn-primary"
                onClick={this.redirectToAddCoursePage}/>
+        <br/>
+        <br/>
         {authors.length > 0 ?
           <AuthorList authors={authors} onDelete={this.deleteAuthor}/>
         :

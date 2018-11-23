@@ -19,7 +19,7 @@ a.disabled {
   cursor: default;
 }
 
-#infiniteTable {
-  height: 150px;
+.infiniteTable {
+  height: 300px;
   overflow: auto;
 }

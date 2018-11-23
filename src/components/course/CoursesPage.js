@@ -46,6 +46,9 @@ class CoursesPage extends React.Component {
                onClick={this.redirectToAddCoursePage}
                disabled={this.state.deleting}/>
 
+        <br/>
+        <br/>
+
         {courses.length > 0 ?
           <CourseList courses={courses} onDelete={this.deleteCourse} deleting={this.state.deleting}/>
           :
